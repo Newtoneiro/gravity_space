@@ -119,13 +119,25 @@ class Planet:
             self._y, PYGAME_CONSTANTS.HEIGHT, self._radius, 1
         )
 
-    def draw(self) -> None:
+    def draw(self, show_velocity_vectors: bool = False) -> None:
         """
-        Draw the planet on the canvas.
+        Draw the planet on the canvas. If show_velocity_vectors is True, also draw the
+        velocity vector of the planet.
         """
         pygame.draw.circle(
             surface=self._win,
-            color=COLORS.RED,
+            color=COLORS.PLANET_COLOR,
             center=(self._x, self._y),
             radius=self._radius,
         )
+        if show_velocity_vectors:
+            pygame.draw.line(
+                surface=self._win,
+                color=COLORS.VELOCITY_VECTORS_COLOR,
+                start_pos=(self._x, self._y),
+                end_pos=(
+                    self._x + PYGAME_CONSTANTS.VECTOR_LENGTH_MULTI * self._vector[0],
+                    self._y + PYGAME_CONSTANTS.VECTOR_LENGTH_MULTI * self._vector[1],
+                ),
+                width=PYGAME_CONSTANTS.VECTOR_WIDTH,
+            )

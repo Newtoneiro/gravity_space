@@ -56,6 +56,8 @@ class Canvas:
         """
         for planet1 in self._planets:
             for planet2 in self._planets:
+                if planet1 == planet2:
+                    continue
                 planet1.calculate_impact_on(planet2)
 
             planet1.update()
