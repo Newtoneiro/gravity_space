@@ -35,6 +35,7 @@ class Canvas:
         init_y: int,
         init_vector: list[float],
         is_stationary: bool = False,
+        is_particle: bool = False,
     ) -> None:
         """
         Initialize and add a planet to the canvas.
@@ -47,7 +48,7 @@ class Canvas:
             is_stationary(bool): whether the planet is stationary or not
         """
         self._planets.append(
-            Planet(self._win, mass, init_x, init_y, init_vector, is_stationary)
+            Planet(self._win, mass, init_x, init_y, init_vector, is_stationary, is_particle)
         )
 
     def update(self) -> None:

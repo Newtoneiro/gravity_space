@@ -178,7 +178,7 @@ class Simulation:
         x, y = pygame.mouse.get_pos()
         for i in range(PHYSICS_CONSTANTS.PARTICLES_PER_CLICK):
             self._canvas.add_planet(
-                mass=1, init_x=x, init_y=y + i, init_vector=[1, 1], is_stationary=False
+                mass=1, init_x=x, init_y=y + i, init_vector=[1, 1], is_stationary=False, is_particle=True
             )
 
     def _handle_mass_change(self, mass: int) -> None:

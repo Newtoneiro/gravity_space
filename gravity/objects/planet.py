@@ -24,6 +24,7 @@ class Planet:
         init_y: int,
         init_vector: list[int],
         is_stationary: bool = False,
+        is_particle: bool = False,
         density: float = PHYSICS_CONSTANTS.DEFAULT_PLANET_DENSITY,
     ):
         self._win = win
@@ -32,6 +33,7 @@ class Planet:
         self._y = init_y
         self._vector = init_vector
         self._is_stationary = is_stationary
+        self._is_particle = is_particle
         self._density = density
 
         self._calculate_radius()
@@ -87,6 +89,11 @@ class Planet:
             other(Planet): other planet, relative to which we calculate the gravitational force.
         """
         if self._is_stationary or self == other:
+            # Stationary planets don't exert force on other planets
+            return
+
+        if self._is_particle and other._is_particle:
+            # Particles don't exert force on each other
             return
 
         d = math.sqrt((self._x - other._x) ** 2 + (self._y - other._y) ** 2)
