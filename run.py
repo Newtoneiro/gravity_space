@@ -96,9 +96,15 @@ class Simulation:
         Initializes pygame callbacks.
         """
         self._key_to_mass = {
-            pygame.K_t: PHYSICS_CONSTANTS.SMALL_PLANET_MASS,
-            pygame.K_y: PHYSICS_CONSTANTS.DEFAULT_PLANET_MASS,
-            pygame.K_u: PHYSICS_CONSTANTS.BIG_PLANET_MASS,
+            pygame.K_t: lambda: self._handle_mass_change(
+                PHYSICS_CONSTANTS.SMALL_PLANET_MASS
+            ),
+            pygame.K_y: lambda: self._handle_mass_change(
+                PHYSICS_CONSTANTS.DEFAULT_PLANET_MASS
+            ),
+            pygame.K_u: lambda: self._handle_mass_change(
+                PHYSICS_CONSTANTS.BIG_PLANET_MASS
+            ),
         }
 
         self._event_callbacks = {
@@ -112,12 +118,8 @@ class Simulation:
             pygame.K_c: self._handle_clear,
             pygame.K_v: self._handle_show_vectors,
             pygame.K_a: self._handle_add_particles,
+            **self._key_to_mass,
         }
-
-        for key in self._key_to_mass:
-            self._key_callbacks[key] = lambda: self._handle_mass_change(
-                self._key_to_mass[key]
-            )
 
     # ================== EVENT HANDLERS ================== #
 
@@ -178,7 +180,12 @@ class Simulation:
         x, y = pygame.mouse.get_pos()
         for i in range(PHYSICS_CONSTANTS.PARTICLES_PER_CLICK):
             self._canvas.add_planet(
-                mass=1, init_x=x, init_y=y + i, init_vector=[1, 1], is_stationary=False, is_particle=True
+                mass=1,
+                init_x=x,
+                init_y=y + i,
+                init_vector=[1, 1],
+                is_stationary=False,
+                is_particle=True,
             )
 
     def _handle_mass_change(self, mass: int) -> None:
